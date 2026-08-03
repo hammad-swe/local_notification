@@ -1,0 +1,29 @@
+import UserNotifications
+
+func scheduleLocalNotification() {
+    // 1. Create the content
+    let content = UNMutableNotificationContent()
+    content.title = "Reminder"
+    content.body = "Don't forget to check your daily tasks!"
+    content.sound = .default
+    content.badge = 1
+    
+    // Custom payload (optional)
+    content.userInfo = ["customKey": "customValue"]
+
+    // 2. Create the trigger (Example: 5 seconds from now)
+    let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+    
+    // 3. Create the request with a unique ID
+    let identifier = "daily_reminder_notification"
+    let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
+
+    // 4. Schedule the request
+    UNUserNotificationCenter.current().add(request) { error in
+        if let error = error {
+            print("Failed to schedule notification: \(error.localizedDescription)")
+        } else {
+            print("Notification scheduled successfully.")
+        }
+    }
+}
